@@ -1630,6 +1630,7 @@ async function sendMobileOtp() {
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Requesting OTP...`;
   }
 
+  let data = null;
   try {
     const formData = new FormData();
     formData.append('phone', phone);
@@ -1638,37 +1639,59 @@ async function sendMobileOtp() {
       method: 'POST',
       body: formData
     });
-    const data = await res.json();
-
-    if (data.success) {
-      State.otpTargetPhone = data.phone;
-      State.isNewUser = data.is_new_user;
-
-      document.getElementById('fkTargetPhone').textContent = `+91 ${data.phone}`;
-      document.getElementById('fkViewPhone').style.display = 'none';
-      document.getElementById('fkViewOtp').style.display = 'block';
-
-      // REALISTIC MOBILE PHONE SMS PUSH NOTIFICATION
-      const smsBanner = document.getElementById('sms-push-banner');
-      const smsOtpCode = document.getElementById('smsOtpCode');
-      if (smsBanner && smsOtpCode) {
-        smsOtpCode.textContent = data.otp;
-        smsBanner.classList.add('show');
-        setTimeout(() => smsBanner.classList.remove('show'), 8000);
-      }
-
-      startModalOtpTimer();
-      setupModalOtpInputs();
-    } else {
-      showModalAlert(data.message || 'Failed to send OTP');
+    if (res.ok) {
+      data = await res.json();
     }
   } catch (err) {
-    showModalAlert('Connection error. Please try again.');
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = 'Request OTP';
+    // API not reachable or static hosting (GitHub Pages)
+    data = null;
+  }
+
+  // Client-side fallback for static hosting / GitHub Pages
+  if (!data || !data.success) {
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    State.serverGeneratedOtp = generatedOtp;
+    State.otpTargetPhone = phone;
+
+    const savedUsers = JSON.parse(localStorage.getItem('rishu_registered_users') || '{}');
+    const existing = savedUsers[phone];
+    State.isNewUser = !existing;
+
+    data = {
+      success: true,
+      phone: phone,
+      otp: generatedOtp,
+      is_new_user: State.isNewUser
+    };
+  }
+
+  if (data && data.success) {
+    State.otpTargetPhone = data.phone;
+    State.isNewUser = data.is_new_user;
+    if (data.otp) State.serverGeneratedOtp = data.otp.toString();
+
+    document.getElementById('fkTargetPhone').textContent = `+91 ${data.phone}`;
+    document.getElementById('fkViewPhone').style.display = 'none';
+    document.getElementById('fkViewOtp').style.display = 'block';
+
+    // REALISTIC MOBILE PHONE SMS PUSH NOTIFICATION
+    const smsBanner = document.getElementById('sms-push-banner');
+    const smsOtpCode = document.getElementById('smsOtpCode');
+    if (smsBanner && smsOtpCode) {
+      smsOtpCode.textContent = data.otp;
+      smsBanner.classList.add('show');
+      setTimeout(() => smsBanner.classList.remove('show'), 9000);
     }
+
+    startModalOtpTimer();
+    setupModalOtpInputs();
+  } else {
+    showModalAlert(data?.message || 'Failed to send OTP. Please try again.');
+  }
+
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = 'Request OTP';
   }
 }
 
@@ -1758,6 +1781,7 @@ async function verifyMobileOtp() {
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Verifying...`;
   }
 
+  let data = null;
   try {
     const formData = new FormData();
     formData.append('phone', State.otpTargetPhone);
@@ -1767,44 +1791,71 @@ async function verifyMobileOtp() {
       method: 'POST',
       body: formData
     });
-    const data = await res.json();
-
-    if (data.success) {
-      if (State.isNewUser && (!data.user.name || data.user.name.startsWith('Customer '))) {
-        document.getElementById('fkViewOtp').style.display = 'none';
-        document.getElementById('fkViewName').style.display = 'block';
-        document.getElementById('fkModalTitle').textContent = "Sign Up";
-        document.getElementById('fkModalSubtitle').textContent = "Enter your name to complete registration";
-        document.getElementById('fkInputName').focus();
-        State.currentUser = data.user;
-        return;
-      }
-
-      // Success Login
-      State.currentUser = data.user;
-      localStorage.setItem('rishu_logged_in_user', JSON.stringify(data.user));
-      renderLoggedInNav(data.user);
-      closeLoginModal();
-      showToast(`Welcome, <strong>${data.user.name}</strong>! You are now logged in 🎉`, 'fa-circle-check');
-
-      if (State.loginIntent === 'checkout') {
-        openCheckoutModal();
-      } else if (State.loginIntent === 'orders') {
-        openOrdersDrawer();
-      } else if (State.loginIntent === 'club') {
-        openRishuClubModal();
-      }
-      syncBackendOrders();
-    } else {
-      showModalAlert(data.message || 'Invalid OTP');
+    if (res.ok) {
+      data = await res.json();
     }
   } catch (err) {
-    showModalAlert('Verification failed. Please try again.');
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = `<span>Verify & Continue</span> <i class="fa-solid fa-shield-check"></i>`;
+    data = null;
+  }
+
+  // Fallback verification for static hosting (GitHub Pages)
+  if (!data || !data.success) {
+    if (!State.serverGeneratedOtp || digits === State.serverGeneratedOtp) {
+      const savedUsers = JSON.parse(localStorage.getItem('rishu_registered_users') || '{}');
+      const existing = savedUsers[State.otpTargetPhone];
+      const defaultName = (State.otpTargetPhone === '9876543210' || State.otpTargetPhone === '9123456789') ? 'Rishabh Yadav' : '';
+      const user = existing || {
+        id: Date.now(),
+        name: defaultName,
+        phone: State.otpTargetPhone,
+        role: 'customer',
+        avatar: 'assets/male.png'
+      };
+
+      data = {
+        success: true,
+        user: user
+      };
     }
+  }
+
+  if (data && data.success) {
+    if (State.isNewUser && (!data.user.name || data.user.name.startsWith('Customer ') || data.user.name === '')) {
+      document.getElementById('fkViewOtp').style.display = 'none';
+      document.getElementById('fkViewName').style.display = 'block';
+      document.getElementById('fkModalTitle').textContent = "Sign Up";
+      document.getElementById('fkModalSubtitle').textContent = "Enter your name to complete registration";
+      document.getElementById('fkInputName').focus();
+      State.currentUser = data.user;
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<span>Verify & Continue</span> <i class="fa-solid fa-shield-check"></i>`;
+      }
+      return;
+    }
+
+    // Success Login
+    State.currentUser = data.user;
+    localStorage.setItem('rishu_logged_in_user', JSON.stringify(data.user));
+    renderLoggedInNav(data.user);
+    closeLoginModal();
+    showToast(`Welcome, <strong>${data.user.name || 'Shopper'}</strong>! You are now logged in 🎉`, 'fa-circle-check');
+
+    if (State.loginIntent === 'checkout') {
+      openCheckoutModal();
+    } else if (State.loginIntent === 'orders') {
+      openOrdersDrawer();
+    } else if (State.loginIntent === 'club') {
+      openRishuClubModal();
+    }
+    syncBackendOrders();
+  } else {
+    showModalAlert('Invalid OTP. Please check the code shown in the notification banner.');
+  }
+
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = `<span>Verify & Continue</span> <i class="fa-solid fa-shield-check"></i>`;
   }
 }
 
@@ -1819,23 +1870,65 @@ async function completeNewUserRegistration() {
     return;
   }
 
-  if (State.currentUser) {
-    State.currentUser.name = fullName;
-    localStorage.setItem('rishu_logged_in_user', JSON.stringify(State.currentUser));
-    renderLoggedInNav(State.currentUser);
+  const btn = document.getElementById('fkBtnSaveName');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
   }
 
-  closeLoginModal();
-  showToast(`Account created! Welcome to Rishu Shop, <strong>${fullName}</strong>! 🎉`, 'fa-circle-check');
+  let data = null;
+  try {
+    const formData = new FormData();
+    formData.append('name', fullName);
 
-  if (State.loginIntent === 'checkout') {
-    openCheckoutModal();
-  } else if (State.loginIntent === 'orders') {
-    openOrdersDrawer();
-  } else if (State.loginIntent === 'club') {
-    openRishuClubModal();
+    const res = await fetch('api/auth.php?action=register_name', {
+      method: 'POST',
+      body: formData
+    });
+    if (res.ok) {
+      data = await res.json();
+    }
+  } catch (err) {
+    data = null;
   }
-  syncBackendOrders();
+
+  if (!data || !data.success) {
+    const user = State.currentUser || {};
+    user.name = fullName;
+    user.phone = State.otpTargetPhone || '9876543210';
+    user.role = 'customer';
+    user.avatar = 'assets/male.png';
+
+    // Save to registered users cache
+    const savedUsers = JSON.parse(localStorage.getItem('rishu_registered_users') || '{}');
+    if (user.phone) {
+      savedUsers[user.phone] = user;
+      localStorage.setItem('rishu_registered_users', JSON.stringify(savedUsers));
+    }
+
+    data = { success: true, user: user };
+  }
+
+  if (data.success) {
+    State.currentUser = data.user;
+    localStorage.setItem('rishu_logged_in_user', JSON.stringify(data.user));
+    renderLoggedInNav(data.user);
+    closeLoginModal();
+    showToast(`Account created! Welcome to Rishu Shop, <strong>${data.user.name}</strong> 🛍️`, 'fa-circle-check');
+
+    if (State.loginIntent === 'checkout') {
+      openCheckoutModal();
+    } else if (State.loginIntent === 'orders') {
+      openOrdersDrawer();
+    } else if (State.loginIntent === 'club') {
+      openRishuClubModal();
+    }
+  }
+
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = `<span>Start Shopping</span> <i class="fa-solid fa-arrow-right"></i>`;
+  }
 }
 
 // 4. Logout
