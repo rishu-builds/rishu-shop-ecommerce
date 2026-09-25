@@ -1,0 +1,21 @@
+{
+  "name": "rishu-builds/rishu-shop",
+  "description": "Full-stack e-commerce and retail storefront with PHP backend, relational SQLite/MySQL persistence, and modern responsive UI",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rishabh Yadav",
+      "email": "ysrishabh017@gmail.com",
+      "homepage": "https://github.com/rishu-builds"
+    }
+  ],
+  "require": {
+    "php": ">=7.4.0",
+    "ext-pdo": "*",
+    "ext-json": "*"
+  },
+  "scripts": {
+    "serve": "php -S 127.0.0.1:8000"
+  }
+}

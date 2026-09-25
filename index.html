@@ -1,0 +1,2969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rishu Shop — Premium Shirts & Denim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/flipkart-store.css">
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg: #0c0120;
+  --purple: #d4a8ff;
+  --blue: #7dd3fc;
+  --pink: #f9a8d4;
+  --gold: #fcd34d;
+  --text: #f0e8ff;
+  --text-muted: #a89bc0;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(212,168,255,0.15);
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+  min-height: 100vh;
+}
+
+/* ===== CUSTOM CURSOR ===== */
+#cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--purple);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+#cursor-ring {
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--purple);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%,-50%);
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+  opacity: 0.7;
+}
+body.cursor-hover #cursor-ring { width: 52px; height: 52px; border-color: var(--pink); }
+
+/* ===== CANVAS BG ===== */
+#bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== BLOBS ===== */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobMorph 18s ease-in-out infinite alternate;
+}
+.blob-1 { width: 500px; height: 500px; background: var(--purple); top: -120px; left: -120px; animation-delay: 0s; }
+.blob-2 { width: 400px; height: 400px; background: var(--blue); top: 30%; right: -100px; animation-delay: -4s; }
+.blob-3 { width: 350px; height: 350px; background: var(--pink); bottom: 20%; left: 10%; animation-delay: -8s; }
+.blob-4 { width: 450px; height: 450px; background: #5b21b6; bottom: -100px; right: 20%; animation-delay: -12s; }
+@keyframes blobMorph {
+  0% { transform: scale(1) translate(0,0); border-radius: 50%; }
+  50% { transform: scale(1.2) translate(30px,-20px); border-radius: 40% 60% 55% 45%; }
+  100% { transform: scale(0.9) translate(-20px,30px); border-radius: 60% 40% 45% 55%; }
+}
+
+/* ===== NOISE OVERLAY ===== */
+.noise-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ===== MAIN CONTENT WRAPPER ===== */
+main { position: relative; z-index: 2; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+@keyframes floatReverse { 0%,100%{transform:translateY(0)} 50%{transform:translateY(18px)} }
+@keyframes orbit1 { 0%,100%{transform:translate(0,0) rotate(0deg)} 25%{transform:translate(8px,-12px) rotate(2deg)} 50%{transform:translate(0,-6px) rotate(-1deg)} 75%{transform:translate(-8px,-10px) rotate(1.5deg)} }
+@keyframes orbit2 { 0%,100%{transform:translate(0,0) rotate(0deg)} 25%{transform:translate(-10px,8px) rotate(-2deg)} 50%{transform:translate(5px,12px) rotate(1deg)} 75%{transform:translate(8px,-5px) rotate(-1.5deg)} }
+@keyframes orbit3 { 0%,100%{transform:translate(0,0) rotate(0deg)} 33%{transform:translate(12px,-8px) rotate(3deg)} 66%{transform:translate(-6px,10px) rotate(-2deg)} }
+@keyframes orbit4 { 0%,100%{transform:translate(0,0) rotate(0deg)} 33%{transform:translate(-12px,6px) rotate(-3deg)} 66%{transform:translate(8px,-10px) rotate(2deg)} }
+@keyframes sway { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(0,-8px) rotate(2deg)} }
+@keyframes sway2 { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(0,8px) rotate(-2deg)} }
+@keyframes shimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+@keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:0.3} 50%{transform:scale(1.08);opacity:0.15} }
+@keyframes pulse-ring2 { 0%,100%{transform:scale(1);opacity:0.2} 50%{transform:scale(1.12);opacity:0.08} }
+@keyframes pulse-ring3 { 0%,100%{transform:scale(1);opacity:0.12} 50%{transform:scale(1.18);opacity:0.05} }
+@keyframes glowPulse { 0%,100%{box-shadow:0 0 20px rgba(212,168,255,0.3),0 0 40px rgba(212,168,255,0.1)} 50%{box-shadow:0 0 30px rgba(212,168,255,0.5),0 0 60px rgba(212,168,255,0.2)} }
+@keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes scaleIn { from{opacity:0;transform:scale(0.88) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes card3DIn { from{opacity:0;transform:translateX(80px) rotateY(25deg)} to{opacity:1;transform:translateX(0) rotateY(0deg)} }
+@keyframes card3DInLeft { from{opacity:0;transform:translateX(-80px) rotateY(-25deg)} to{opacity:1;transform:translateX(0) rotateY(0deg)} }
+@keyframes breathe { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.05)} }
+
+/* ===== GRADIENT TEXT ===== */
+.grad-text {
+  background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 40%, var(--blue) 70%, var(--gold) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ===== NAVBAR ===== */
+#navbar {
+  position: relative;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+#navbar.scrolled {
+  background: rgba(12,1,32,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--purple), var(--pink), var(--gold), var(--purple));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--purple); }
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(212,168,255,0.35);
+  color: var(--purple);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.btn-ghost:hover { background: rgba(212,168,255,0.1); border-color: var(--purple); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border: none;
+  color: #0c0120;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.btn-primary:hover { transform: scale(1.04); }
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 26px; height: 2px;
+  background: var(--purple);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* Mobile Nav Overlay */
+#mobile-nav {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 1, 26, 0.98);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  z-index: 10000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 70px 24px 40px;
+  overflow-y: auto;
+  gap: 12px;
+}
+#mobile-nav.open { display: flex; }
+#mobile-nav a {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  width: 100%;
+  max-width: 340px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 168, 255, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.25s ease;
+}
+#mobile-nav a i {
+  color: var(--purple);
+  width: 22px;
+  text-align: center;
+}
+#mobile-nav.open a { animation: fadeUp 0.4s ease forwards; }
+#mobile-nav a:hover, #mobile-nav a:active {
+  background: rgba(212, 168, 255, 0.14);
+  border-color: var(--purple);
+  color: #ffffff;
+  transform: translateX(4px);
+}
+#mobile-close {
+  position: absolute;
+  top: 18px; right: 20px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 168, 255, 0.2);
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+#mobile-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: 110px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+.hero-left { position: relative; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,168,255,0.1);
+  border: 1px solid rgba(212,168,255,0.25);
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.1s forwards;
+}
+.hero-badge i { font-size: 0.7rem; }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 6.5vw, 5.8rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.25s forwards;
+}
+.hero-title span.line { display: block; }
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.4s forwards;
+}
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.5s forwards;
+}
+.hero-tag {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.hero-buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.6s forwards;
+}
+.btn-hero-primary {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border: none;
+  color: #0c0120;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.btn-hero-primary:hover { transform: scale(1.04) translateY(-2px); }
+.btn-hero-secondary {
+  background: transparent;
+  border: 1px solid rgba(212,168,255,0.3);
+  color: var(--purple);
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-hero-secondary:hover { background: rgba(212,168,255,0.08); border-color: var(--purple); }
+
+/* Hero right visual */
+.hero-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 1s ease 0.3s forwards;
+}
+.hero-visual {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+.hero-aura {
+  position: absolute;
+  width: 340px; height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,255,0.18) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,255,0.25);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.pulse-ring-1 { width: 280px; height: 280px; animation: pulse-ring 4s ease-in-out infinite; }
+.pulse-ring-2 { width: 370px; height: 370px; animation: pulse-ring2 4s ease-in-out infinite 1s; }
+.pulse-ring-3 { width: 460px; height: 460px; animation: pulse-ring3 4s ease-in-out infinite 2s; }
+.hero-statue-wrap {
+  position: relative;
+  z-index: 3;
+  width: 300px;
+  animation: float 4s ease-in-out infinite;
+}
+.hero-statue-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.hero-statue-wrap .img-fallback {
+  width: 300px; height: 420px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.2), rgba(249,168,212,0.2));
+  border-radius: 20px;
+  display: none;
+}
+
+/* Floating product cards */
+.float-card {
+  position: absolute;
+  width: 115px;
+  background: rgba(12,1,32,0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212,168,255,0.2);
+  border-radius: 14px;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.float-card:hover { transform: scale(1.05) !important; box-shadow: 0 10px 30px rgba(212,168,255,0.3); }
+.float-card img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+.float-card .img-fallback {
+  width: 100%; height: 110px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.2), rgba(249,168,212,0.2));
+  border-radius: 10px;
+  display: none;
+}
+.float-card-name {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 6px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.float-card-badge {
+  position: absolute;
+  top: 6px; right: 6px;
+  background: var(--gold);
+  color: #0c0120;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  z-index: 2;
+}
+.hero-card-1 { top: 10px; left: 0; animation: orbit1 13s ease-in-out infinite; }
+.hero-card-2 { top: 10px; right: 0; animation: orbit2 11s ease-in-out infinite; }
+.hero-card-3 { bottom: 10px; left: 0; animation: orbit3 14s ease-in-out infinite; }
+.hero-card-4 { bottom: 10px; right: 0; animation: orbit4 12s ease-in-out infinite; }
+
+/* Section floating cards */
+.section-float-card-1 {
+  position: absolute;
+  top: -18px; left: -18px;
+  z-index: 10;
+  animation: sway 11s ease-in-out infinite;
+}
+.section-float-card-2 {
+  position: absolute;
+  bottom: -18px; right: -18px;
+  z-index: 10;
+  animation: sway2 13s ease-in-out infinite;
+}
+
+/* Scroll hint */
+.scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.5;
+  animation: fadeIn 1s ease 1.2s forwards;
+  opacity: 0;
+}
+.scroll-hint span { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+.scroll-arrow {
+  width: 22px; height: 22px;
+  border-right: 1.5px solid var(--purple);
+  border-bottom: 1.5px solid var(--purple);
+  transform: rotate(45deg);
+  animation: float 1.5s ease-in-out infinite;
+}
+
+/* ===== MARQUEE ===== */
+#marquee {
+  background: rgba(212,168,255,0.05);
+  border-top: 1px solid rgba(212,168,255,0.1);
+  border-bottom: 1px solid rgba(212,168,255,0.1);
+  padding: 14px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 22s linear infinite;
+}
+#marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 36px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.marquee-item i { color: var(--purple); font-size: 0.75rem; }
+.marquee-sep { color: rgba(212,168,255,0.3); margin: 0 4px; }
+
+/* ===== STATS BAR ===== */
+#stats {
+  padding: 60px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.stats-inner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,168,255,0.12);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 36px 20px;
+  position: relative;
+}
+.stat-item + .stat-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 1px;
+  background: rgba(212,168,255,0.12);
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ===== SECTION COMMON ===== */
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-eyebrow::after {
+  content: '';
+  width: 30px; height: 1px;
+  background: var(--purple);
+  opacity: 0.5;
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.section-para {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 460px;
+  margin-bottom: 28px;
+}
+
+/* Statue card wrapper */
+.statue-card-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.statue-eyebrow-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+.statue-tagline {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 10px;
+  text-align: center;
+}
+.statue-img-container {
+  position: relative;
+  width: 100%;
+}
+.statue-img-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  max-height: 480px;
+}
+.statue-img-container .img-fallback {
+  width: 100%; height: 400px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.15), rgba(125,211,252,0.1));
+  border-radius: 20px;
+  display: none;
+}
+
+/* ===== INNOVATION SECTION ===== */
+#innovation {
+  padding: 80px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.innovation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 28px;
+}
+.feature-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  transform-style: preserve-3d;
+}
+.feature-card:hover { box-shadow: 0 8px 30px rgba(212,168,255,0.15); }
+.feature-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+.feature-icon-purple { background: rgba(212,168,255,0.15); color: var(--purple); }
+.feature-icon-blue { background: rgba(125,211,252,0.15); color: var(--blue); }
+.feature-icon-pink { background: rgba(249,168,212,0.15); color: var(--pink); }
+.feature-icon-gold { background: rgba(252,211,77,0.15); color: var(--gold); }
+.feature-card h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.feature-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ===== COLLECTION SECTION ===== */
+#collection {
+  padding: 80px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.collection-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+.checklist li::before {
+  content: '';
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230c0120' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.btn-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.btn-section-primary {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border: none;
+  color: #0c0120;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.btn-section-primary:hover { transform: scale(1.03) translateY(-2px); }
+.btn-section-ghost {
+  border: 1px solid rgba(212,168,255,0.3);
+  color: var(--purple);
+  background: transparent;
+}
+.btn-section-ghost:hover { background: rgba(212,168,255,0.08); }
+
+/* ===== LOOKBOOK SECTION ===== */
+#lookbook {
+  padding: 80px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.lookbook-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.inline-stats {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.inline-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.inline-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+/* ===== STATUE SHOWCASE ===== */
+#statue-showcase {
+  padding: 100px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.showcase-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(91,33,182,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.showcase-heading {
+  text-align: center;
+  margin-bottom: 72px;
+}
+.showcase-heading .section-eyebrow { justify-content: center; }
+.showcase-heading .section-eyebrow::after { display: none; }
+.showcase-heading .section-heading { font-size: clamp(2.4rem,5vw,4rem); }
+.showcase-cards {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  perspective: 1200px;
+}
+.showcase-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,168,255,0.1);
+  border-radius: 24px;
+  padding: 24px 16px;
+  opacity: 0;
+  transform: translateX(80px) rotateY(20deg);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.showcase-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 80%, rgba(212,168,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.showcase-card.visible { opacity: 1; transform: translateX(0) rotateY(0deg); }
+.showcase-card:hover { box-shadow: 0 20px 60px rgba(212,168,255,0.15); transform: translateY(-8px) !important; }
+.showcase-card-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+.showcase-card img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-height: 340px;
+  display: block;
+}
+.showcase-card .img-fallback {
+  width: 100%; height: 280px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.15), rgba(249,168,212,0.1));
+  border-radius: 12px;
+  display: none;
+}
+.showcase-card-tagline {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 12px;
+  text-align: center;
+  line-height: 1.4;
+}
+.showcase-card-num {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  opacity: 0.08;
+  color: var(--purple);
+}
+
+/* ===== PRODUCT STRIP ===== */
+#product-strip {
+  padding: 80px 0;
+}
+.strip-header {
+  max-width: 1300px;
+  margin: 0 auto 36px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.strip-scroll {
+  overflow-x: auto;
+  padding: 20px 40px 30px;
+  display: flex;
+  gap: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,168,255,0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.strip-scroll::-webkit-scrollbar { height: 3px; }
+.strip-scroll::-webkit-scrollbar-track { background: transparent; }
+.strip-scroll::-webkit-scrollbar-thumb { background: rgba(212,168,255,0.3); border-radius: 3px; }
+.product-card {
+  flex-shrink: 0;
+  width: 200px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(212,168,255,0.1);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  text-decoration: none;
+  display: block;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(212,168,255,0.2);
+  border-color: rgba(212,168,255,0.3);
+}
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.product-card .img-fallback {
+  width: 100%; height: 200px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.15), rgba(125,211,252,0.1));
+  display: none;
+}
+.product-card-info { padding: 14px; }
+.product-card-name {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.product-card-price { font-size: 0.82rem; color: var(--purple); font-weight: 600; }
+
+/* ===== TESTIMONIALS ===== */
+#testimonials {
+  padding: 80px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.testimonial-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 28px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  transform-style: preserve-3d;
+}
+.testimonial-card:hover { box-shadow: 0 12px 40px rgba(212,168,255,0.12); }
+.stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 14px; letter-spacing: 2px; }
+.testimonial-quote {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.testimonial-footer { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #0c0120;
+  flex-shrink: 0;
+}
+.testimonial-name { font-weight: 600; font-size: 0.88rem; }
+.testimonial-loc { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ===== CTA SECTION ===== */
+#cta {
+  padding: 100px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(212,168,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+.cta-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem,5vw,4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+.cta-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 36px; }
+.cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ===== PRODUCT SHOWCASE ===== */
+#product-showcase {
+  padding: 80px 40px;
+  text-align: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.product-showcase-wrap {
+  position: relative;
+  display: inline-block;
+  border-radius: 28px;
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+}
+.product-showcase-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue));
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.4;
+}
+.product-showcase-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 28px;
+}
+.product-showcase-wrap .img-fallback {
+  width: 100%; height: 400px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.15), rgba(125,211,252,0.1));
+  border-radius: 28px;
+  display: none;
+}
+.product-showcase-tagline {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 24px;
+}
+
+/* ===== FOOTER ===== */
+#footer {
+  padding: 40px;
+  border-top: 1px solid rgba(212,168,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1300px;
+  margin: 0 auto;
+  gap: 20px;
+}
+.footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+.footer-socials { display: flex; gap: 16px; }
+.footer-social {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+.footer-social:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+  box-shadow: 0 0 12px rgba(212,168,255,0.2);
+}
+
+/* ===== MODAL ===== */
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,0,18,0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+#modal-overlay.open { display: flex; }
+#modal-box {
+  position: relative;
+  max-width: 480px;
+  width: 92%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #160828 0%, #0c0120 100%);
+  border: 1px solid rgba(212,168,255,0.2);
+  border-radius: 24px;
+  padding: 28px;
+  animation: scaleIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+#modal-box::-webkit-scrollbar { width: 3px; }
+#modal-box::-webkit-scrollbar-thumb { background: rgba(212,168,255,0.3); border-radius: 3px; }
+#modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+#modal-close:hover { background: rgba(212,168,255,0.15); color: var(--purple); }
+.modal-images {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.modal-images img {
+  flex: 1;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+.modal-images .img-fallback {
+  flex: 1; height: 160px;
+  background: linear-gradient(135deg, rgba(212,168,255,0.15), rgba(249,168,212,0.1));
+  border-radius: 12px;
+  display: none;
+}
+.modal-product-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--purple), var(--pink), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+.modal-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 18px; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.modal-tag {
+  background: rgba(212,168,255,0.08);
+  border: 1px solid rgba(212,168,255,0.2);
+  border-radius: 50px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  color: var(--purple);
+  font-weight: 500;
+}
+.modal-add-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0c0120;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.modal-add-btn:hover { transform: scale(1.02); }
+
+/* Responsive queries */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #navbar {
+    padding: 0 20px;
+    height: 68px;
+    gap: 12px;
+  }
+  .nav-links { display: none !important; }
+  .nav-hamburger { display: flex !important; order: 3; }
+  .nav-search-container { flex: 1; max-width: 260px; margin: 0 10px; }
+  .nav-actions { display: flex !important; gap: 8px; align-items: center; }
+  .nav-action-btn { padding: 6px 12px; }
+  .nav-action-btn .label-text { display: none; }
+  .btn-fk-login { padding: 6px 14px; font-size: 0.82rem; }
+
+  .hero-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 40px 24px;
+  }
+  .hero-title { font-size: 3rem; }
+  .hero-subtitle { font-size: 0.95rem; }
+  .hero-visual { max-width: 320px; margin: 0 auto; }
+  .hero-statue-wrap { width: 190px; }
+  .float-card { width: 80px; }
+  .float-card img { height: 70px; }
+
+  .stats-inner { display: grid; grid-template-columns: 1fr 1fr; }
+  .stat-item { width: 100%; }
+
+  .strip-scroll { padding: 16px 24px 24px; }
+  .product-card { width: 230px; min-width: 230px; }
+  .product-card img { height: 180px; }
+
+  .innovation-grid, .collection-grid, .lookbook-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .showcase-cards { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .testimonials-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    cursor: auto !important;
+  }
+  #cursor-dot, #cursor-ring { display: none !important; }
+  #bg-canvas { display: none !important; }
+  .blob, .noise-overlay, .hero-aura, .cta-glow { display: none !important; }
+
+  /* Announcement Bar */
+  #announcement-bar {
+    height: 32px;
+    font-size: 0.72rem;
+    padding: 0 10px;
+    gap: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #announcement-bar span:nth-child(3) { display: none; }
+
+  /* Top Navbar */
+  #navbar {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 56px;
+    padding: 8px 14px 10px;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-hamburger {
+    display: flex !important;
+    order: 1;
+    padding: 4px;
+    margin-right: 2px;
+  }
+  .nav-brand-wrap {
+    order: 2;
+    gap: 6px;
+  }
+  .nav-logo { font-size: 1.35rem; }
+  .nav-tag-badge { font-size: 0.58rem; padding: 2px 5px; }
+
+  .nav-links { display: none !important; }
+
+  /* Quick Actions (Wishlist, Bag, Login) */
+  .nav-actions {
+    display: flex !important;
+    order: 3;
+    gap: 6px;
+    align-items: center;
+  }
+  .nav-action-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    min-width: 36px;
+  }
+  .nav-action-btn .label-text { display: none !important; }
+  .btn-fk-login {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    border-radius: 50px;
+  }
+
+  /* Full-width Search Bar Row */
+  .nav-search-container {
+    order: 4;
+    width: 100%;
+    max-width: 100%;
+    margin: 4px 0 0;
+  }
+  .nav-search-bar {
+    padding: 6px 14px;
+    height: 38px;
+    border-radius: 50px;
+  }
+  .nav-search-bar input {
+    font-size: 0.84rem;
+  }
+
+  /* Hero Section */
+  #hero {
+    padding-top: 130px;
+    min-height: auto;
+    padding-bottom: 40px;
+  }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 20px;
+    text-align: center;
+    gap: 32px;
+  }
+  .hero-left { order: 1; }
+  .hero-right { order: 2; }
+  .hero-badge { font-size: 0.7rem; padding: 5px 12px; margin-bottom: 14px; }
+  .hero-title {
+    font-size: clamp(2.2rem, 8.5vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero-subtitle {
+    font-size: 0.92rem;
+    max-width: 100%;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+  }
+  .hero-tags {
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .hero-tag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+  }
+  .hero-buttons {
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .btn-hero-primary, .btn-hero-secondary {
+    padding: 11px 20px;
+    font-size: 0.88rem;
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Hero Visual & Statue */
+  .hero-visual {
+    max-width: 280px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-statue-wrap { width: 160px; margin: 0 auto; }
+  .pulse-ring-1 { width: 160px; height: 160px; }
+  .pulse-ring-2 { width: 220px; height: 220px; }
+  .pulse-ring-3 { width: 270px; height: 270px; }
+  .float-card {
+    width: 74px;
+    border-radius: 12px;
+    padding: 6px;
+  }
+  .float-card img { height: 64px; border-radius: 8px; }
+  .float-card-name { font-size: 0.58rem; }
+  .hero-card-1 { top: 0; left: 0; }
+  .hero-card-2 { top: 0; right: 0; }
+  .hero-card-3 { bottom: 0; left: 0; }
+  .hero-card-4 { bottom: 0; right: 0; }
+
+  /* Stats Section */
+  #stats { padding: 30px 16px; }
+  .stats-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 16px;
+  }
+  .stat-item {
+    width: 100%;
+    padding: 18px 12px;
+    text-align: center;
+  }
+  .stat-num { font-size: 1.85rem; }
+  .stat-label { font-size: 0.72rem; }
+
+  /* Product Strip */
+  #product-strip { padding: 40px 0 20px; }
+  .strip-header {
+    padding: 0 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .filter-tabs-wrapper { padding: 0 16px 12px; }
+  .filter-tabs-inner {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .filter-tabs-inner::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .strip-scroll {
+    padding: 10px 16px 24px;
+    gap: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .product-card {
+    width: 220px;
+    min-width: 220px;
+    scroll-snap-align: start;
+  }
+  .product-card img { height: 180px; }
+  .product-card-body { padding: 12px; }
+  .card-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .btn-card-cart, .btn-card-buy {
+    padding: 8px 4px;
+    font-size: 0.72rem;
+    justify-content: center;
+  }
+
+  /* Content Sections */
+  #innovation, #collection, #lookbook, #testimonials, #product-showcase {
+    padding: 50px 16px;
+  }
+  .innovation-grid, .collection-grid, .lookbook-grid, .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .collection-grid .statue-card-wrap { order: -1; }
+  .feature-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feature-card { padding: 16px 12px; }
+  .statue-img-container img { max-height: 280px; object-fit: contain; }
+
+  /* Join Rishu Club Section */
+  #cta { padding: 60px 16px; }
+  .cta-heading { font-size: 2.2rem; }
+  .cta-buttons { flex-direction: column; width: 100%; gap: 12px; }
+  .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }
+
+  /* Footer */
+  #footer {
+    padding: 30px 16px;
+    text-align: center;
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  /* Modals on Mobile */
+  #modal-overlay {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(6,0,18,0.92);
+  }
+  .modal-images { flex-direction: column; }
+  .modal-images img { height: 140px; }
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .nav-logo { font-size: 1.22rem; }
+  .hero-title { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .feature-grid { grid-template-columns: 1fr; }
+  .showcase-cards { grid-template-columns: 1fr; }
+  .cta-heading { font-size: 1.85rem; }
+  .stat-item { padding: 14px 8px; }
+  .stat-num { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Animated Background Canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- CSS Blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="blob blob-4"></div>
+
+<!-- Noise Overlay -->
+<div class="noise-overlay"></div>
+
+<!-- Mobile Nav Overlay -->
+<nav id="mobile-nav" aria-label="Mobile navigation">
+  <button id="mobile-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+  <a href="#hero" onclick="document.getElementById('mobile-close').click()"><i class="fa-solid fa-house"></i> Home</a>
+  <a href="#product-strip" onclick="document.getElementById('mobile-close').click()"><i class="fa-solid fa-store"></i> Shop All</a>
+  <a href="#product-strip" onclick="document.getElementById('mobile-close').click(); filterProductsByCategory('shirts')"><i class="fa-solid fa-shirt"></i> Shirts</a>
+  <a href="#product-strip" onclick="document.getElementById('mobile-close').click(); filterProductsByCategory('denim')"><i class="fa-solid fa-vest"></i> Denim</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('mobile-close').click(); openCartDrawer()"><i class="fa-solid fa-bag-shopping"></i> My Bag</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('mobile-close').click(); openOrdersDrawer()"><i class="fa-solid fa-box-open"></i> My Orders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('mobile-close').click(); openWishlistDrawer()"><i class="fa-solid fa-heart"></i> Wishlist</a>
+  <a href="admin/admin-dashboard.php"><i class="fa-solid fa-gauge"></i> Admin Dashboard</a>
+  <a href="javascript:void(0)" id="mobileLoginBtn" onclick="document.getElementById('mobile-close').click(); openLoginModal()" style="color:var(--purple);font-weight:700"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
+  <a href="javascript:void(0)" id="mobileLogoutBtn" onclick="document.getElementById('mobile-close').click(); handleUserLogout()" style="display:none; color:#f87171;font-weight:600"><i class="fa-solid fa-power-off"></i> Logout (<span id="mobileUserName">User</span>)</a>
+</nav>
+
+<main>
+
+<!-- Site Header -->
+<header id="site-header" class="site-header" role="banner">
+  <!-- Top Announcement Bar -->
+  <div id="announcement-bar">
+    <span class="badge-pill">🔥 Flash Drop</span>
+    <span>Ayodhya Exclusive: Flat 20% OFF with code <strong class="code-chip" onclick="applyPromoCode('RISHU20'); openCartDrawer()">RISHU20</strong></span>
+    <span>• ⚡ 2-Day Delivery to Ayodhya • Cash On Delivery Available</span>
+  </div>
+
+  <!-- Storefront Navbar -->
+  <nav id="navbar" aria-label="Main Navigation">
+  <a href="index.html" class="nav-brand-wrap" aria-label="Rishu Shop home">
+    <span class="nav-logo">Rishu Shop</span>
+    <span class="nav-tag-badge">Ayodhya</span>
+  </a>
+
+  <!-- Flipkart Live Search Bar -->
+  <div class="nav-search-container">
+    <div class="nav-search-bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Search shirts, denim, oversized, silk..." autocomplete="off">
+      <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+
+  <ul class="nav-links" role="list">
+    <li><a href="#product-strip">Shop</a></li>
+    <li><a href="#product-strip" onclick="filterProductsByCategory('shirts')">Shirts</a></li>
+    <li><a href="#product-strip" onclick="filterProductsByCategory('denim')">Denim</a></li>
+    <li><a href="#lookbook">Lookbook</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <!-- Wishlist Button -->
+    <button type="button" class="nav-action-btn" onclick="openWishlistDrawer()" aria-label="Wishlist">
+      <i class="fa-regular fa-heart"></i>
+      <span class="label-text">Wishlist</span>
+      <span class="nav-action-badge" id="wishBadge" style="display:none">0</span>
+    </button>
+
+    <!-- My Orders Button -->
+    <button type="button" class="nav-action-btn" onclick="openOrdersDrawer()" aria-label="My Orders">
+      <i class="fa-solid fa-box-open"></i>
+      <span class="label-text">Orders</span>
+      <span class="nav-action-badge" id="ordersBadge" style="display:none">0</span>
+    </button>
+
+    <!-- Cart Button -->
+    <button type="button" class="nav-action-btn" onclick="openCartDrawer()" aria-label="Cart" style="background:linear-gradient(135deg,rgba(212,168,255,0.22),rgba(249,168,212,0.22));border-color:var(--purple)">
+      <i class="fa-solid fa-bag-shopping" style="color:var(--purple)"></i>
+      <span class="label-text" style="font-weight:700">Bag</span>
+      <span class="nav-action-badge" id="cartBadge" style="display:none">0</span>
+    </button>
+
+    <!-- AUTH CONTAINER: Login Button OR User Profile -->
+    <div id="navAuthContainer">
+      <!-- 1. Not Logged In: Flipkart Login Button -->
+      <button type="button" class="btn-fk-login" id="navLoginBtn" onclick="openLoginModal()">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+      </button>
+
+      <!-- 2. Logged In: User Profile Pill & Dropdown (Hidden initially, shown when authenticated) -->
+      <div class="user-menu-wrap" id="navUserMenu" style="display:none">
+        <div class="user-pill-btn" onclick="toggleUserDropdown()" role="button" tabindex="0">
+          <div class="user-avatar-mini" id="navUserAvatar">U</div>
+          <span class="label-text" id="navUserName">My Account</span>
+          <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;color:var(--text-muted)"></i>
+        </div>
+        <div class="user-dropdown-menu" id="userDropdownMenu">
+          <div class="user-dropdown-header">
+            <div class="name" id="dropdownUserName">Customer</div>
+            <div class="email" id="dropdownUserContact">Verified User</div>
+          </div>
+          <button type="button" class="user-dropdown-item" onclick="openOrdersDrawer(); toggleUserDropdown()"><i class="fa-solid fa-box-open"></i> My Orders</button>
+          <button type="button" class="user-dropdown-item" onclick="openWishlistDrawer(); toggleUserDropdown()"><i class="fa-solid fa-heart"></i> My Wishlist</button>
+          <a href="admin/admin-dashboard.php" class="user-dropdown-item"><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</a>
+          <button type="button" class="user-dropdown-item" onclick="handleUserLogout()" style="color:#f87171;border-top:1px solid rgba(212,168,255,0.1);margin-top:4px"><i class="fa-solid fa-power-off" style="color:#f87171"></i> Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" role="button" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge"><i class="fa-solid fa-star"></i> New Season — 2026 Drops</div>
+      <h1 class="hero-title">
+        <span class="line grad-text">Premium</span>
+        <span class="line">Shirts &</span>
+        <span class="line grad-text">Denim.</span>
+      </h1>
+      <p class="hero-subtitle">Curated for the boldly modern lifestyle. Where every thread tells a story of uncompromising craftsmanship and timeless aesthetic.</p>
+      <div class="hero-tags">
+        <span class="hero-tag"><i class="fa-solid fa-leaf" style="color:var(--purple);margin-right:4px"></i> Sustainable</span>
+        <span class="hero-tag"><i class="fa-solid fa-gem" style="color:var(--pink);margin-right:4px"></i> Premium</span>
+        <span class="hero-tag"><i class="fa-solid fa-fire" style="color:var(--gold);margin-right:4px"></i> New Arrivals</span>
+        <span class="hero-tag"><i class="fa-solid fa-truck" style="color:var(--blue);margin-right:4px"></i> Free Shipping</span>
+      </div>
+      <div class="hero-buttons">
+        <a href="#product-strip" class="btn-hero-primary"><i class="fa-solid fa-bag-shopping"></i> Shop the Drop</a>
+        <a href="#lookbook" class="btn-hero-secondary"><i class="fa-solid fa-book-open"></i> View Lookbook</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual" id="hero-visual">
+        <div class="hero-aura"></div>
+        <div class="pulse-ring pulse-ring-1"></div>
+        <div class="pulse-ring pulse-ring-2"></div>
+        <div class="pulse-ring pulse-ring-3"></div>
+        <div class="hero-statue-wrap">
+          <img src="assets/statue.png" alt="Rishu Shop Model" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+        </div>
+        <!-- Floating cards -->
+        <div class="float-card hero-card-1" data-product="shirt1" role="button" tabindex="0" aria-label="View Silk Luxe Shirt">
+          <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+          <img src="assets/shirt1.png" alt="Silk Luxe Shirt" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card-name">Silk Luxe</div>
+        </div>
+        <div class="float-card hero-card-2" data-product="shirt2" role="button" tabindex="0" aria-label="View Linen Cloud Shirt">
+          <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+          <img src="assets/shirt2.png" alt="Linen Cloud Shirt" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card-name">Linen Cloud</div>
+        </div>
+        <div class="float-card hero-card-3" data-product="jeans1" role="button" tabindex="0" aria-label="View Slim Stretch Denim">
+          <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+          <img src="assets/jeans1.png" alt="Slim Stretch Denim" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card-name">Slim Stretch</div>
+        </div>
+        <div class="float-card hero-card-4" data-product="jeans2" role="button" tabindex="0" aria-label="View Wide Leg Denim">
+          <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+          <img src="assets/jeans2.png" alt="Wide Leg Denim" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card-name">Wide Leg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div id="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item"><i class="fa-solid fa-shirt"></i> Premium Shirts <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-star"></i> New Season 2026 <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-gem"></i> Curated Denim <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-leaf"></i> Sustainably Made <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-fire"></i> Bold Modern Style <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-truck-fast"></i> Free Worldwide Shipping <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-rotate-left"></i> 30-Day Returns <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-shield-halved"></i> Secure Checkout <span class="marquee-sep">·</span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><i class="fa-solid fa-shirt"></i> Premium Shirts <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-star"></i> New Season 2026 <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-gem"></i> Curated Denim <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-leaf"></i> Sustainably Made <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-fire"></i> Bold Modern Style <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-truck-fast"></i> Free Worldwide Shipping <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-rotate-left"></i> 30-Day Returns <span class="marquee-sep">·</span></div>
+    <div class="marquee-item"><i class="fa-solid fa-shield-halved"></i> Secure Checkout <span class="marquee-sep">·</span></div>
+  </div>
+</div>
+
+<!-- ===== STATS BAR ===== -->
+<section id="stats" aria-label="Statistics">
+  <div class="stats-inner reveal">
+    <div class="stat-item">
+      <div class="stat-num grad-text">48K+</div>
+      <div class="stat-label">Happy Customers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">320+</div>
+      <div class="stat-label">Unique Designs</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="background:linear-gradient(135deg,var(--pink),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">98%</div>
+      <div class="stat-label">Satisfaction Rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="background:linear-gradient(135deg,var(--gold),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">12</div>
+      <div class="stat-label">Countries Shipped</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INNOVATION SECTION ===== -->
+<section id="innovation" aria-label="Innovation">
+  <div class="innovation-grid">
+    <div class="reveal">
+      <div class="statue-card-wrap">
+        <div class="statue-eyebrow-label"><i class="fa-solid fa-sparkles" style="color:var(--purple)"></i> New Arrival · Innovation</div>
+        <div class="statue-img-container" style="position:relative">
+          <img src="assets/statue1.png" alt="Innovation Model" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card section-float-card-1" data-product="shirt3">
+            <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+            <img src="assets/shirt3.png" alt="Oversized Oxford" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="img-fallback"></div>
+            <div class="float-card-name">Oxford</div>
+          </div>
+          <div class="float-card section-float-card-2" data-product="jeans3">
+            <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+            <img src="assets/jeans3.png" alt="Tapered Raw Denim" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="img-fallback"></div>
+            <div class="float-card-name">Tapered Raw</div>
+          </div>
+        </div>
+        <div class="statue-tagline">"Where technology meets texture."</div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="section-eyebrow"><i class="fa-solid fa-microchip"></i> Innovation</div>
+      <h2 class="section-heading">Fabric <span class="grad-text">Science</span> Meets Editorial Vision</h2>
+      <p class="section-para">Every Rishu piece begins in the lab — engineered fibres, zero-waste dyeing, and structural tailoring that moves with your body without compromise.</p>
+      <div class="feature-grid">
+        <div class="feature-card" data-tilt>
+          <div class="feature-icon feature-icon-purple"><i class="fa-solid fa-atom"></i></div>
+          <h4>Nano-Weave Tech</h4>
+          <p>Ultra-breathable micro-fibres that regulate temperature naturally.</p>
+        </div>
+        <div class="feature-card" data-tilt>
+          <div class="feature-icon feature-icon-blue"><i class="fa-solid fa-droplet"></i></div>
+          <h4>Zero-Waste Dye</h4>
+          <p>Water-recycling dye systems with zero chemical discharge.</p>
+        </div>
+        <div class="feature-card" data-tilt>
+          <div class="feature-icon feature-icon-pink"><i class="fa-solid fa-ruler"></i></div>
+          <h4>Precision Cut</h4>
+          <p>CAD-perfected patterns cut with 0.5mm laser accuracy.</p>
+        </div>
+        <div class="feature-card" data-tilt>
+          <div class="feature-icon feature-icon-gold"><i class="fa-solid fa-recycle"></i></div>
+          <h4>100% Circular</h4>
+          <p>Full take-back program — every worn garment reborn as new.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COLLECTION SECTION ===== -->
+<section id="collection" aria-label="Collection">
+  <div class="collection-grid">
+    <div class="reveal">
+      <div class="section-eyebrow"><i class="fa-solid fa-layer-group"></i> Collection</div>
+      <h2 class="section-heading">Every Piece <span class="grad-text">Earns</span> Its Place</h2>
+      <p class="section-para">Our editorial team handpicks each drop — no filler, no compromise. Only pieces that pass the boldness test make the cut.</p>
+      <ul class="checklist">
+        <li>Hand-finished seams on every garment</li>
+        <li>Limited edition — each drop under 500 units</li>
+        <li>Ethically sourced premium selvedge denim</li>
+        <li>Certified OEKO-TEX® Standard 100 fabrics</li>
+      </ul>
+      <a href="#product-strip" class="btn-section btn-section-primary"><i class="fa-solid fa-arrow-right"></i> Browse Collection</a>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="statue-card-wrap">
+        <div class="statue-eyebrow-label"><i class="fa-solid fa-crown" style="color:var(--gold)"></i> Curated · Season 2026</div>
+        <div class="statue-img-container" style="position:relative">
+          <img src="assets/statue2.png" alt="Collection Model" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card section-float-card-1" data-product="shirt4">
+            <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+            <img src="assets/shirt4.png" alt="Resort Collar Shirt" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="img-fallback"></div>
+            <div class="float-card-name">Resort</div>
+          </div>
+          <div class="float-card section-float-card-2" data-product="jeans4">
+            <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+            <img src="assets/jeans4.png" alt="Relaxed Carpenter" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="img-fallback"></div>
+            <div class="float-card-name">Carpenter</div>
+          </div>
+        </div>
+        <div class="statue-tagline">"Every piece earns its place."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOOKBOOK SECTION ===== -->
+<section id="lookbook" aria-label="Lookbook">
+  <div class="lookbook-grid">
+    <div class="reveal">
+      <div class="statue-card-wrap">
+        <div class="statue-eyebrow-label"><i class="fa-solid fa-book-open" style="color:var(--blue)"></i> Editorial · Lookbook</div>
+        <div class="statue-img-container" style="position:relative">
+          <img src="assets/statue3.png" alt="Lookbook Model" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="img-fallback"></div>
+          <div class="float-card section-float-card-1" data-product="jeans5">
+            <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+            <img src="assets/jeans5.png" alt="Selvedge Wide Denim" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="img-fallback"></div>
+            <div class="float-card-name">Selvedge</div>
+          </div>
+          <div class="float-card section-float-card-2" data-product="shirt5">
+            <div class="float-card-badge"><i class="fa-solid fa-star"></i></div>
+            <img src="assets/shirt5.png" alt="Editorial Drop Shirt" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="img-fallback"></div>
+            <div class="float-card-name">Editorial</div>
+          </div>
+        </div>
+        <div class="statue-tagline">"Style that speaks before you do."</div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="section-eyebrow"><i class="fa-solid fa-camera"></i> Lookbook</div>
+      <h2 class="section-heading">The Art of <span class="grad-text">Wearing</span> Bold</h2>
+      <p class="section-para">Season 2026 — shot on location across Tokyo, Milan, and Lagos. Each frame a meditation on the space between fashion and identity.</p>
+      <div class="inline-stats">
+        <div>
+          <div class="inline-stat-num grad-text">12</div>
+          <div class="inline-stat-label">Looks</div>
+        </div>
+        <div>
+          <div class="inline-stat-num" style="background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">3</div>
+          <div class="inline-stat-label">Cities</div>
+        </div>
+        <div>
+          <div class="inline-stat-num" style="background:linear-gradient(135deg,var(--pink),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">24</div>
+          <div class="inline-stat-label">Pieces</div>
+        </div>
+      </div>
+      <a href="#lookbook" class="btn-section btn-section-ghost"><i class="fa-solid fa-eye"></i> View Lookbook</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ANIMATED STATUE SHOWCASE ===== -->
+<section id="statue-showcase" aria-label="The Collection Showcase">
+  <div class="showcase-bg"></div>
+  <div class="showcase-heading reveal">
+    <div class="section-eyebrow" style="justify-content:center"><i class="fa-solid fa-wand-magic-sparkles"></i> Cinematic Showcase</div>
+    <h2 class="section-heading grad-text">The Collection</h2>
+    <p class="section-para" style="margin:0 auto;text-align:center">Four statues. Four stories. One boldly modern vision.</p>
+  </div>
+  <div class="showcase-cards">
+    <div class="showcase-card" data-showcase-delay="0">
+      <div class="showcase-card-num">01</div>
+      <div class="showcase-card-eyebrow"><i class="fa-solid fa-fire" style="margin-right:4px"></i> New Arrival · S/S 2026</div>
+      <img src="assets/statue.png" alt="Season Opener" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="img-fallback"></div>
+      <div class="showcase-card-tagline">"The season opener. Crafted for the boldly modern."</div>
+    </div>
+    <div class="showcase-card" data-showcase-delay="1">
+      <div class="showcase-card-num">02</div>
+      <div class="showcase-card-eyebrow"><i class="fa-solid fa-atom" style="margin-right:4px"></i> Innovation · Lab Series</div>
+      <img src="assets/statue1.png" alt="Lab Series" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="img-fallback"></div>
+      <div class="showcase-card-tagline">"Where technology meets texture and form."</div>
+    </div>
+    <div class="showcase-card" data-showcase-delay="2">
+      <div class="showcase-card-num">03</div>
+      <div class="showcase-card-eyebrow"><i class="fa-solid fa-crown" style="margin-right:4px"></i> Curated · Season Edit</div>
+      <img src="assets/statue2.png" alt="Season Edit" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="img-fallback"></div>
+      <div class="showcase-card-tagline">"Every piece earns its place in the story."</div>
+    </div>
+    <div class="showcase-card" data-showcase-delay="3">
+      <div class="showcase-card-num">04</div>
+      <div class="showcase-card-eyebrow"><i class="fa-solid fa-book-open" style="margin-right:4px"></i> Editorial · Lookbook</div>
+      <img src="assets/statue3.png" alt="Editorial" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="img-fallback"></div>
+      <div class="showcase-card-tagline">"Style that speaks volumes before you do."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCT STRIP & CATALOG ===== -->
+<section id="product-strip" aria-label="All Products">
+  <div class="strip-header reveal">
+    <div>
+      <div class="section-eyebrow"><i class="fa-solid fa-shirt"></i> Full Lineup</div>
+      <h2 class="section-heading">Shop <span class="grad-text">Every Drop</span></h2>
+    </div>
+    <div style="font-size:0.85rem;color:var(--text-muted)">
+      <i class="fa-solid fa-shield-halved" style="color:var(--purple);margin-right:4px"></i> 100% Original • COD Available
+    </div>
+  </div>
+
+  <!-- Category Filter Chips -->
+  <div class="filter-tabs-wrapper reveal">
+    <div class="filter-tabs-inner">
+      <button type="button" class="filter-chip active" data-category="all"><i class="fa-solid fa-border-all"></i> All Pieces (10)</button>
+      <button type="button" class="filter-chip" data-category="shirts"><i class="fa-solid fa-shirt"></i> Luxury Shirts</button>
+      <button type="button" class="filter-chip" data-category="denim"><i class="fa-solid fa-vest-patches"></i> Designer Denim</button>
+      <button type="button" class="filter-chip" data-category="under-1500"><i class="fa-solid fa-tag"></i> Under ₹1,500</button>
+      <button type="button" class="filter-chip" data-category="bestseller"><i class="fa-solid fa-fire"></i> Best Sellers (★4.8+)</button>
+    </div>
+  </div>
+
+  <div class="strip-scroll" role="list">
+    <!-- Product 1: Silk Luxe Shirt -->
+    <div class="product-card" data-product="shirt1" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">46% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="shirt1" onclick="toggleWishlist('shirt1')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('shirt1')">
+        <img src="assets/shirt1.png" alt="Silk Luxe Shirt" onerror="this.src='assets/shirt2.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.8</span>
+          <span class="rating-count">(1.4k)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('shirt1')">Silk Luxe Shirt</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,599</span>
+          <span class="original-price">₹2,999</span>
+          <span class="save-badge">Save ₹1,400</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('shirt1', 'M', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('shirt1')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 2: Linen Cloud Shirt -->
+    <div class="product-card" data-product="shirt2" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">50% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="shirt2" onclick="toggleWishlist('shirt2')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('shirt2')">
+        <img src="assets/shirt2.png" alt="Linen Cloud Shirt" onerror="this.src='assets/shirt1.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.7</span>
+          <span class="rating-count">(890)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('shirt2')">Linen Cloud Shirt</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,199</span>
+          <span class="original-price">₹2,399</span>
+          <span class="save-badge">Save ₹1,200</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('shirt2', 'M', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('shirt2')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 3: Oversized Oxford -->
+    <div class="product-card" data-product="shirt3" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">50% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="shirt3" onclick="toggleWishlist('shirt3')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('shirt3')">
+        <img src="assets/shirt3.png" alt="Oversized Oxford" onerror="this.src='assets/shirt4.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.9</span>
+          <span class="rating-count">(2.1k)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('shirt3')">Oversized Oxford</div>
+        <div class="product-price-row">
+          <span class="current-price">₹899</span>
+          <span class="original-price">₹1,799</span>
+          <span class="save-badge">Save ₹900</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('shirt3', 'M', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('shirt3')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 4: Resort Collar Shirt -->
+    <div class="product-card" data-product="shirt4" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">50% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="shirt4" onclick="toggleWishlist('shirt4')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('shirt4')">
+        <img src="assets/shirt4.png" alt="Resort Collar Shirt" onerror="this.src='assets/shirt3.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.6</span>
+          <span class="rating-count">(670)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('shirt4')">Resort Collar Shirt</div>
+        <div class="product-price-row">
+          <span class="current-price">₹999</span>
+          <span class="original-price">₹1,999</span>
+          <span class="save-badge">Save ₹1,000</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('shirt4', 'M', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('shirt4')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 5: Editorial Drop Shirt -->
+    <div class="product-card" data-product="shirt5" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">47% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="shirt5" onclick="toggleWishlist('shirt5')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('shirt5')">
+        <img src="assets/shirt5.png" alt="Editorial Drop Shirt" onerror="this.src='assets/shirt1.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.8</span>
+          <span class="rating-count">(940)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('shirt5')">Editorial Drop Shirt</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,699</span>
+          <span class="original-price">₹3,199</span>
+          <span class="save-badge">Save ₹1,500</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('shirt5', 'M', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('shirt5')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 6: Slim Stretch Denim -->
+    <div class="product-card" data-product="jeans1" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">48% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="jeans1" onclick="toggleWishlist('jeans1')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('jeans1')">
+        <img src="assets/jeans1.png" alt="Slim Stretch Denim" onerror="this.src='assets/jeans2.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.8</span>
+          <span class="rating-count">(3.2k)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('jeans1')">Slim Stretch Denim</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,299</span>
+          <span class="original-price">₹2,499</span>
+          <span class="save-badge">Save ₹1,200</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('jeans1', '32', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('jeans1')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 7: Wide Leg Denim -->
+    <div class="product-card" data-product="jeans2" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">48% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="jeans2" onclick="toggleWishlist('jeans2')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('jeans2')">
+        <img src="assets/jeans2.png" alt="Wide Leg Denim" onerror="this.src='assets/jeans1.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.7</span>
+          <span class="rating-count">(1.8k)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('jeans2')">Wide Leg Denim</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,499</span>
+          <span class="original-price">₹2,899</span>
+          <span class="save-badge">Save ₹1,400</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('jeans2', '32', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('jeans2')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 8: Tapered Raw Denim -->
+    <div class="product-card" data-product="jeans3" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">48% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="jeans3" onclick="toggleWishlist('jeans3')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('jeans3')">
+        <img src="assets/jeans3.png" alt="Tapered Raw Denim" onerror="this.src='assets/jeans4.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.9</span>
+          <span class="rating-count">(1.1k)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('jeans3')">Tapered Raw Denim</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,699</span>
+          <span class="original-price">₹3,299</span>
+          <span class="save-badge">Save ₹1,600</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('jeans3', '32', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('jeans3')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 9: Relaxed Carpenter -->
+    <div class="product-card" data-product="jeans4" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">48% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="jeans4" onclick="toggleWishlist('jeans4')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('jeans4')">
+        <img src="assets/jeans4.png" alt="Relaxed Carpenter" onerror="this.src='assets/jeans3.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.6</span>
+          <span class="rating-count">(780)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('jeans4')">Relaxed Carpenter</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,399</span>
+          <span class="original-price">₹2,699</span>
+          <span class="save-badge">Save ₹1,300</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('jeans4', '32', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('jeans4')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 10: Selvedge Wide Denim -->
+    <div class="product-card" data-product="jeans5" role="listitem">
+      <div class="product-card-topbar">
+        <span class="discount-pill">49% OFF</span>
+        <button type="button" class="wish-card-btn" data-product="jeans5" onclick="toggleWishlist('jeans5')" aria-label="Add to wishlist"><i class="fa-solid fa-heart"></i></button>
+      </div>
+      <div class="product-img-wrap" onclick="openQuickViewModal('jeans5')">
+        <img src="assets/jeans5.png" alt="Selvedge Wide Denim" onerror="this.src='assets/jeans1.png'">
+      </div>
+      <div class="product-card-body">
+        <div class="product-rating-row">
+          <span class="rating-pill">★ 4.9</span>
+          <span class="rating-count">(1.5k)</span>
+        </div>
+        <div class="product-card-title" onclick="openQuickViewModal('jeans5')">Selvedge Wide Denim</div>
+        <div class="product-price-row">
+          <span class="current-price">₹1,899</span>
+          <span class="original-price">₹3,699</span>
+          <span class="save-badge">Save ₹1,800</span>
+        </div>
+        <div class="card-actions-grid">
+          <button type="button" class="btn-card-cart" onclick="addToCart('jeans5', '32', 1)"><i class="fa-solid fa-bag-shopping"></i> Add to Bag</button>
+          <button type="button" class="btn-card-buy" onclick="buyNowDirect('jeans5')">⚡ Buy Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="no-search-results" style="display:none;text-align:center;padding:50px 20px">
+    <i class="fa-solid fa-magnifying-glass" style="font-size:2.5rem;color:var(--text-muted);margin-bottom:12px"></i>
+    <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:700">No matching pieces found</div>
+    <p style="color:var(--text-muted);font-size:0.85rem;margin-top:6px">Try searching for "silk", "denim", "oversized", or click All Pieces.</p>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials" aria-label="Testimonials">
+  <div class="reveal" style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center"><i class="fa-solid fa-quote-left"></i> Testimonials</div>
+    <h2 class="section-heading">Worn by the <span class="grad-text">Boldly Modern</span></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal reveal-delay-1" data-tilt>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-quote">"The Silk Luxe shirt is genuinely the most premium thing in my wardrobe. The drape, the feel, the construction — nothing I've worn compares at this price point."</p>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar">JK</div>
+        <div>
+          <div class="testimonial-name">James K.</div>
+          <div class="testimonial-loc">London, UK</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2" data-tilt>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-quote">"I wore the Selvedge Wide Denim to a gallery opening and got four people asking where I got them. The weight and the fade after a few wears is absolutely stunning."</p>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,var(--blue),var(--purple))">AM</div>
+        <div>
+          <div class="testimonial-name">Aisha M.</div>
+          <div class="testimonial-loc">Lagos, Nigeria</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-3" data-tilt>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-quote">"Rishu is the first brand I've found that actually delivers on its sustainability claims. The OEKO-TEX certification, the take-back program — they actually care."</p>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,var(--pink),var(--gold))">RL</div>
+        <div>
+          <div class="testimonial-name">Rémi L.</div>
+          <div class="testimonial-loc">Paris, France</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section id="cta" aria-label="Join Rishu">
+  <div class="cta-glow"></div>
+  <div class="cta-inner reveal">
+    <div class="section-eyebrow" style="justify-content:center"><i class="fa-solid fa-bolt"></i> Join the Movement</div>
+    <h2 class="cta-heading">Dress for the <span class="grad-text">Life You're Building</span></h2>
+    <p class="cta-sub">Join 48,000 bold individuals who refuse to settle. New drops every Thursday. Members get early access.</p>
+    <div class="cta-buttons">
+      <button type="button" onclick="openRishuClubModal()" class="btn-hero-primary" style="cursor:pointer;border:none"><i class="fa-solid fa-crown"></i> Join Rishu Club</button>
+      <a href="#product-strip" class="btn-hero-secondary"><i class="fa-solid fa-bag-shopping"></i> Shop Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCT SHOWCASE ===== -->
+<section id="product-showcase" aria-label="Product Showcase">
+  <div class="reveal">
+    <div class="section-eyebrow" style="justify-content:center"><i class="fa-solid fa-wand-sparkles"></i> The Flagship</div>
+    <h2 class="section-heading" style="text-align:center;margin-bottom:36px">The <span class="grad-text">Statement Piece</span></h2>
+  </div>
+  <div style="display:flex;justify-content:center">
+    <div class="product-showcase-wrap reveal" onclick="openQuickViewModal('shirt1')" style="cursor:pointer">
+      <img src="assets/product.png" alt="Rishu Flagship Product" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="img-fallback"></div>
+    </div>
+  </div>
+  <p class="product-showcase-tagline reveal" style="margin-top:24px">"The one piece your wardrobe has been waiting for."</p>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="footer" role="contentinfo">
+  <div class="nav-logo">Rishu Shop</div>
+  <p class="footer-copy">© 2026 Rishu Shop. Premium Shirts & Denim — curated for the boldly modern lifestyle.</p>
+  <div class="footer-socials">
+    <a href="javascript:void(0)" onclick="showToast('Instagram: @rishu.builds', 'fa-brands fa-instagram')" class="footer-social" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="javascript:void(0)" onclick="showToast('TikTok: @rishu.shop', 'fa-brands fa-tiktok')" class="footer-social" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="javascript:void(0)" onclick="showToast('Pinterest: @rishushop', 'fa-brands fa-pinterest')" class="footer-social" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+    <a href="javascript:void(0)" onclick="showToast('X: @rishu_builds', 'fa-brands fa-x-twitter')" class="footer-social" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+  </div>
+</footer>
+
+</main>
+
+<!-- ===== OUTFIT MODAL ===== -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-label="Product Details">
+  <div id="modal-box">
+    <button id="modal-close" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-images" id="modal-images"></div>
+    <div class="modal-product-name" id="modal-name"></div>
+    <p class="modal-desc" id="modal-desc"></p>
+    <div class="modal-tags" id="modal-tags"></div>
+    <a href="javascript:void(0)" class="modal-add-btn"><i class="fa-solid fa-bag-shopping"></i> Add to Cart</a>
+  </div>
+</div>
+
+<!-- ===== SLIDE-IN CART DRAWER ===== -->
+<div class="cart-drawer-overlay" id="cart-drawer-overlay" onclick="if(event.target===this)closeCartDrawer()">
+  <div class="cart-drawer-container" role="dialog" aria-label="Shopping Cart">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <i class="fa-solid fa-bag-shopping" style="color:var(--purple);font-size:1.2rem"></i>
+        <span class="drawer-title">My Bag</span>
+        <span class="drawer-item-count" id="cart-header-count">0 Items</span>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="closeCartDrawer()" aria-label="Close cart"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Free Delivery Meter -->
+    <div class="free-shipping-bar">
+      <div class="shipping-progress-text" id="shipping-text">Add ₹999 for <strong>FREE Delivery</strong></div>
+      <div class="shipping-progress-track">
+        <div class="shipping-progress-fill" id="shipping-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items Scrollable List -->
+    <div class="drawer-body" id="cart-items-list">
+      <!-- Items dynamically rendered by flipkart-store.js -->
+    </div>
+
+    <!-- Price Details Summary -->
+    <div id="cart-bill-summary" style="padding: 0 22px 14px">
+      <!-- Bill summary dynamically rendered -->
+    </div>
+
+    <!-- Sticky Checkout Button -->
+    <div class="drawer-footer">
+      <button type="button" class="btn-checkout-cta" id="cart-checkout-btn" onclick="openCheckoutModal()">
+        <span>Proceed to Checkout</span> <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE-IN WISHLIST DRAWER ===== -->
+<div class="wishlist-drawer-overlay" id="wishlist-drawer-overlay" onclick="if(event.target===this)closeWishlistDrawer()">
+  <div class="wishlist-drawer-container" role="dialog" aria-label="Wishlist">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <i class="fa-solid fa-heart" style="color:#ec4899;font-size:1.2rem"></i>
+        <span class="drawer-title">My Wishlist</span>
+        <span class="drawer-item-count" id="wishlist-header-count">0 Items</span>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="closeWishlistDrawer()" aria-label="Close wishlist"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body" id="wishlist-items-list">
+      <!-- Wishlist items dynamically rendered -->
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE-IN MY ORDERS DRAWER ===== -->
+<div class="orders-drawer-overlay" id="orders-drawer-overlay" onclick="if(event.target===this)closeOrdersDrawer()">
+  <div class="orders-drawer-container" role="dialog" aria-label="My Orders">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <i class="fa-solid fa-box-open" style="color:var(--purple);font-size:1.2rem"></i>
+        <span class="drawer-title">My Orders</span>
+        <span class="drawer-item-count" id="orders-header-count">0 Orders</span>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="closeOrdersDrawer()" aria-label="Close orders"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body" id="orders-history-list">
+      <!-- Orders dynamically rendered -->
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-STEP CHECKOUT MODAL ===== -->
+<div id="checkout-modal" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="checkout-box">
+    <div class="checkout-header">
+      <div class="checkout-steps-bar">
+        <div class="checkout-step-indicator active" id="step-indicator-1">
+          <span class="step-num-bubble">1</span>
+          <span>Address</span>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="color:var(--text-muted);font-size:0.75rem;align-self:center"></i>
+        <div class="checkout-step-indicator" id="step-indicator-2">
+          <span class="step-num-bubble">2</span>
+          <span>Payment</span>
+        </div>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="closeCheckoutModal()" aria-label="Close checkout"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="checkout-body" id="checkout-body">
+      <!-- Step 1 or Step 2 rendered by flipkart-store.js -->
+    </div>
+  </div>
+</div>
+
+<!-- ===== ORDER SUCCESS & 5-STAGE TRACKER MODAL ===== -->
+<div id="order-success-modal" role="dialog" aria-modal="true" aria-label="Order Placed">
+  <canvas id="confetti-canvas"></canvas>
+  <div class="success-box">
+    <button type="button" class="drawer-close-btn" style="position:absolute;top:20px;right:20px" onclick="closeOrderSuccessModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="success-icon-wrap">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <h2 class="success-title">Order Placed Successfully!</h2>
+    <div class="success-order-id" id="successOrderCode">Order Code: #RS-99214</div>
+    <div class="success-delivery-pill">
+      <i class="fa-solid fa-truck-fast" style="color:var(--purple)"></i>
+      <span id="successDeliveryDate">Expected Delivery: Within 4 Days to Ayodhya</span>
+    </div>
+
+    <!-- Flipkart 5-Stage Live Stepper -->
+    <div class="tracker-stepper-wrap">
+      <div class="stepper-header">
+        <span><i class="fa-solid fa-route" style="color:var(--purple);margin-right:6px"></i> Live Order Tracking</span>
+        <span style="color:#34d399;font-weight:700">Real-Time Dispatch</span>
+      </div>
+      <div class="tracker-stepper">
+        <div class="tracker-progress-line" id="stepperProgressLine" style="width: 25%"></div>
+        <!-- Node 1: Order Confirmed -->
+        <div class="stepper-node completed" id="node-1">
+          <div class="node-circle"><i class="fa-solid fa-check"></i></div>
+          <div class="node-label">Order<br>Confirmed</div>
+        </div>
+        <!-- Node 2: Packed -->
+        <div class="stepper-node active" id="node-2">
+          <div class="node-circle"><i class="fa-solid fa-box-archive"></i></div>
+          <div class="node-label">Packed &<br>Labelled</div>
+        </div>
+        <!-- Node 3: Shipped -->
+        <div class="stepper-node" id="node-3">
+          <div class="node-circle"><i class="fa-solid fa-plane"></i></div>
+          <div class="node-label">Shipped Express</div>
+        </div>
+        <!-- Node 4: Out for Delivery -->
+        <div class="stepper-node" id="node-4">
+          <div class="node-circle"><i class="fa-solid fa-truck"></i></div>
+          <div class="node-label">Out for<br>Delivery</div>
+        </div>
+        <!-- Node 5: Delivered -->
+        <div class="stepper-node" id="node-5">
+          <div class="node-circle"><i class="fa-solid fa-house-chimney"></i></div>
+          <div class="node-label">Delivered</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Shipping Info Card -->
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,255,0.12);border-radius:14px;padding:14px;text-align:left;font-size:0.8rem;line-height:1.6;margin-bottom:22px">
+      <div style="font-weight:700;color:#fff;margin-bottom:4px"><i class="fa-solid fa-location-dot" style="color:var(--purple);margin-right:6px"></i> Delivery Address:</div>
+      <div style="color:var(--purple);font-weight:600" id="successCustomerName">Customer Name • Mobile</div>
+      <div style="color:var(--text-muted)" id="successCustomerAddress">Delivery Address</div>
+      <div style="margin-top:6px;border-top:1px solid rgba(212,168,255,0.1);padding-top:6px;color:var(--text-muted)">
+        Payment: <strong style="color:#fff" id="successPaymentInfo">Cash On Delivery • ₹1,599</strong>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="success-actions-row">
+      <button type="button" class="btn-success-primary" onclick="printInvoice()">
+        <i class="fa-solid fa-print"></i> Download Tax Invoice
+      </button>
+      <button type="button" class="btn-success-ghost" onclick="closeOrderSuccessModal(); openOrdersDrawer()">
+        <i class="fa-solid fa-box-open"></i> View All Orders
+      </button>
+      <button type="button" class="btn-success-ghost" onclick="closeOrderSuccessModal()">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Real-time Mobile Phone SMS Notification Banner -->
+<div id="sms-push-banner" onclick="this.classList.remove('show')">
+  <div class="sms-icon"><i class="fa-solid fa-comment-sms"></i></div>
+  <div class="sms-content">
+    <div class="sms-header"><span>MESSAGES</span><span>Just Now</span></div>
+    <div class="sms-body">Rishu Shop: <strong id="smsOtpCode">------</strong> is your OTP to log in. Do not share with anyone.</div>
+  </div>
+</div>
+
+<!-- ===== FLIPKART MOBILE PHONE LOGIN MODAL ===== -->
+<div id="fk-login-modal" onclick="if(event.target===this)closeLoginModal()">
+  <div class="fk-modal-card">
+    <button type="button" class="fk-modal-close" onclick="closeLoginModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+
+    <!-- LEFT FLIPKART BLUE BANNER -->
+    <div class="fk-modal-left">
+      <div>
+        <div class="fk-brand-pill"><i class="fa-solid fa-shield-halved"></i> 100% Secure Login</div>
+        <h2 class="fk-title" id="fkModalTitle">Login</h2>
+        <p class="fk-subtitle" id="fkModalSubtitle">Get access to your Orders, Wishlist and Recommendations</p>
+      </div>
+
+      <div class="fk-badge-graphic">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="54" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+          <path d="M38 44 H82 L76 90 H44 Z" fill="#ffffff" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+          <path d="M52 44 C52 32 68 32 68 44" stroke="#2874f0" stroke-width="5" stroke-linecap="round"/>
+          <polygon points="60,54 64,62 73,63 66,70 68,79 60,74 52,79 54,70 47,63 56,62" fill="#ff9f00"/>
+        </svg>
+      </div>
+
+      <div class="fk-trust-points">
+        <div class="fk-trust-item"><i class="fa-solid fa-circle-check"></i> Authentic SMS OTP Verification</div>
+        <div class="fk-trust-item"><i class="fa-solid fa-box-open"></i> Live Order Tracking & Invoices</div>
+        <div class="fk-trust-item"><i class="fa-solid fa-crown"></i> Exclusive VIP Member Pricing</div>
+      </div>
+    </div>
+
+    <!-- RIGHT FORM PANEL -->
+    <div class="fk-modal-right">
+      <div class="fk-alert" id="fkModalAlert" style="display:none"></div>
+
+      <!-- VIEW 1: ENTER MOBILE NUMBER -->
+      <div id="fkViewPhone" style="display:block">
+        <div class="fk-input-title">Log in or Sign up</div>
+        <div class="fk-input-helper">Enter your 10-digit mobile number to receive a verification OTP</div>
+
+        <div class="fk-phone-box">
+          <div class="fk-country-chip">
+            <span class="fk-flag">🇮🇳</span>
+            <span class="fk-code">+91</span>
+          </div>
+          <input type="tel" id="fkInputPhone" maxlength="10" placeholder="Enter Mobile Number" autocomplete="tel">
+        </div>
+
+        <p class="fk-terms-text">
+          By continuing, you agree to Rishu Shop's <a href="javascript:void(0)">Terms of Use</a> and <a href="javascript:void(0)">Privacy Policy</a>.
+        </p>
+
+        <button type="button" class="fk-btn-primary" id="fkBtnSendOtp" onclick="sendMobileOtp()">
+          <span>Request OTP</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <div class="fk-card-footer">
+          <span>New to Rishu Shop? <a style="color:#2874f0;font-weight:700;cursor:pointer" onclick="document.getElementById('fkInputPhone').focus()">Create an account</a></span>
+        </div>
+      </div>
+
+      <!-- VIEW 2: ENTER OTP -->
+      <div id="fkViewOtp" style="display:none">
+        <div class="fk-input-title">Verify Mobile Number</div>
+        <div class="fk-otp-sent-info">
+          <span>OTP sent to <strong id="fkTargetPhone">+91 XXXXX XXXXX</strong></span>
+          <button type="button" class="fk-change-btn" onclick="backToPhoneView()"><i class="fa-solid fa-pen-to-square"></i> Change</button>
+        </div>
+
+        <div class="fk-otp-boxes">
+          <input type="text" maxlength="1" class="fk-otp-digit" id="mOtp1" inputmode="numeric" autocomplete="one-time-code">
+          <input type="text" maxlength="1" class="fk-otp-digit" id="mOtp2" inputmode="numeric">
+          <input type="text" maxlength="1" class="fk-otp-digit" id="mOtp3" inputmode="numeric">
+          <input type="text" maxlength="1" class="fk-otp-digit" id="mOtp4" inputmode="numeric">
+          <input type="text" maxlength="1" class="fk-otp-digit" id="mOtp5" inputmode="numeric">
+          <input type="text" maxlength="1" class="fk-otp-digit" id="mOtp6" inputmode="numeric">
+        </div>
+
+        <div class="fk-timer-row">
+          <span id="fkTimerText"><i class="fa-regular fa-clock"></i> Resend OTP in <strong id="fkTimerSec">00:30</strong></span>
+          <a class="fk-resend-link" id="fkBtnResend" style="display:none" onclick="sendMobileOtp()"><i class="fa-solid fa-rotate-right"></i> Resend OTP</a>
+        </div>
+
+        <button type="button" class="fk-btn-primary" id="fkBtnVerifyOtp" onclick="verifyMobileOtp()">
+          <span>Verify & Continue</span> <i class="fa-solid fa-shield-check"></i>
+        </button>
+      </div>
+
+      <!-- VIEW 3: NEW USER NAME (If new mobile number) -->
+      <div id="fkViewName" style="display:none">
+        <div class="fk-input-title">Welcome to Rishu Shop! 🎉</div>
+        <div class="fk-input-helper">Please enter your name to complete your registration</div>
+
+        <div class="fk-name-box">
+          <i class="fa-regular fa-user" style="color:#2874f0;font-size:16px"></i>
+          <input type="text" id="fkInputName" placeholder="Enter Full Name (e.g. Rahul Sharma)">
+        </div>
+
+        <button type="button" class="fk-btn-primary" onclick="completeNewUserRegistration()">
+          <span>Complete Sign Up & Shop</span> <i class="fa-solid fa-check"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== RISHU VIP CLUB MODAL ===== -->
+<div id="rishu-club-modal" class="club-modal-overlay" onclick="if(event.target===this)closeRishuClubModal()">
+  <div class="club-modal-card">
+    <button type="button" class="club-modal-close" onclick="closeRishuClubModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+
+    <!-- VIP HOLOGRAPHIC CARD -->
+    <div class="club-vip-card">
+      <div class="vip-card-glow"></div>
+      <div class="vip-card-header">
+        <div class="vip-card-brand">
+          <span class="brand-text">RISHU CLUB</span>
+          <span class="vip-tag">VIP ELITE</span>
+        </div>
+        <div class="vip-chip"><i class="fa-solid fa-microchip"></i></div>
+      </div>
+      <div class="vip-card-number">•••• •••• •••• 2026</div>
+      <div class="vip-card-footer">
+        <div>
+          <div class="vip-label">MEMBER NAME</div>
+          <div class="vip-name" id="clubMemberName">VIP ACCESS PASS</div>
+        </div>
+        <div style="text-align:right">
+          <div class="vip-label">STATUS</div>
+          <div class="vip-status-active"><i class="fa-solid fa-circle-check"></i> ACTIVE PERKS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLUB CONTENT -->
+    <div class="club-body">
+      <h3 class="club-title">Exclusive <span class="grad-text">VIP Member Benefits</span></h3>
+      <p class="club-sub">Unlock premium privileges reserved exclusively for Rishu Club members.</p>
+
+      <!-- 4 PERKS GRID -->
+      <div class="club-perks-grid">
+        <div class="club-perk-card">
+          <div class="perk-icon" style="background:rgba(212,168,255,0.15);color:var(--purple)"><i class="fa-solid fa-ticket"></i></div>
+          <div class="perk-info">
+            <h4>₹500 Welcome Voucher</h4>
+            <p>Flat ₹500 off on your order with code <strong class="club-code-chip" onclick="copyAndApplyClubCoupon('WELCOME500')">WELCOME500</strong></p>
+          </div>
+        </div>
+
+        <div class="club-perk-card">
+          <div class="perk-icon" style="background:rgba(251,191,36,0.15);color:#fbbf24"><i class="fa-solid fa-bolt"></i></div>
+          <div class="perk-info">
+            <h4>24-Hour Early Access</h4>
+            <p>Exclusive early access to limited edition shirts & denim before public drop.</p>
+          </div>
+        </div>
+
+        <div class="club-perk-card">
+          <div class="perk-icon" style="background:rgba(74,222,128,0.15);color:#4ade80"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="perk-info">
+            <h4>Free Priority Shipping</h4>
+            <p>Zero delivery charges on all Ayodhya and nationwide express orders.</p>
+          </div>
+        </div>
+
+        <div class="club-perk-card">
+          <div class="perk-icon" style="background:rgba(244,114,182,0.15);color:#f472b6"><i class="fa-solid fa-coins"></i></div>
+          <div class="perk-info">
+            <h4>5% Rishu SuperCoins</h4>
+            <p>Earn coins on every purchase, 100% redeemable for direct cash discount.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTON CONTAINER -->
+      <div class="club-action-box" id="clubActionBox">
+        <button type="button" class="btn-club-primary" onclick="claimClubBenefits()">
+          <i class="fa-solid fa-crown"></i> Claim ₹500 Voucher & Join VIP Club
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Flipkart Store Engine Script -->
+<script src="assets/js/flipkart-store.js"></script>
+
+<script>
+// ===== PRODUCT DATA =====
+const PRODUCTS = {
+  shirt1: { name: 'Silk Luxe Shirt', imgs: ['shirt1','shirt2'], desc: 'Woven from 100% grade-A mulberry silk, the Silk Luxe drapes with impossible softness. A fluid silhouette built for boardrooms and late-night galleries alike.', tags: ['Silk', 'Relaxed Fit', 'Premium', 'SS2026'] },
+  shirt2: { name: 'Linen Cloud Shirt', imgs: ['shirt2','shirt1'], desc: 'Stone-washed Belgian linen — impossibly lightweight, structured at the shoulder, relaxed everywhere else. This is summer redefined.', tags: ['Linen', 'Oversized', 'Sustainable', 'Summer'] },
+  shirt3: { name: 'Oversized Oxford', imgs: ['shirt3','shirt4'], desc: 'Classic Oxford cloth reimagined for the modern edit. Drop shoulders, a boxy silhouette, and a feel that only gets better with every wash.', tags: ['Cotton', 'Boxy Fit', 'Everyday', 'Classic'] },
+  shirt4: { name: 'Resort Collar Shirt', imgs: ['shirt4','shirt3'], desc: 'The open collar. The flutter sleeve. Woven from ultra-fine cotton lawn — designed for the person who is always on holiday in their mind.', tags: ['Cotton Lawn', 'Open Collar', 'Resort', 'Relaxed'] },
+  shirt5: { name: 'Editorial Drop Shirt', imgs: ['shirt5','shirt1'], desc: 'A collaboration with Berlin-based artist Kai Möller. Deconstructed seams, asymmetric hem, and a hem weight that makes every movement sculptural.', tags: ['Artist Collab', 'Limited', 'Avant-Garde', 'Statement'] },
+  jeans1: { name: 'Slim Stretch Denim', imgs: ['jeans1','jeans2'], desc: 'Our best-selling silhouette — a tapered slim that flexes with your body using our proprietary 3% elastane blend. The everyday essential, perfected.', tags: ['Stretch', 'Slim', '12oz', 'Bestseller'] },
+  jeans2: { name: 'Wide Leg Denim', imgs: ['jeans2','jeans1'], desc: 'A full, generous leg opening cut from rigid 14.5oz denim. The kind of wide leg that photographs like a campaign and wears like a uniform.', tags: ['Rigid', 'Wide Leg', '14.5oz', 'Editorial'] },
+  jeans3: { name: 'Tapered Raw Denim', imgs: ['jeans3','jeans4'], desc: 'Unsanforized Japanese selvedge that will mould to your exact body over time. A living garment — the longer you wear it, the more yours it becomes.', tags: ['Raw', 'Japanese', 'Selvedge', 'Tapered'] },
+  jeans4: { name: 'Relaxed Carpenter', imgs: ['jeans4','jeans3'], desc: 'Vintage-inspired carpenter styling with hammer loop, hammer pocket, and enough room to move freely. Worn-in indigo wash included.', tags: ['Carpenter', 'Relaxed', 'Vintage Wash', 'Utility'] },
+  jeans5: { name: 'Selvedge Wide Denim', imgs: ['jeans5','jeans1'], desc: 'Cone Mills x Rishu — 15oz selvedge denim cut into the widest silhouette in our range. A collector\'s piece that defines the season.', tags: ['Cone Mills', 'Selvedge', 'Wide', 'Collector'] }
+};
+
+// ===== IS MOBILE? =====
+const isMobile = () => window.innerWidth <= 768;
+
+// ===== BACKGROUND CANVAS =====
+(function initCanvas() {
+  if (isMobile()) return;
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, t = 0;
+  function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  const orbs = [
+    { x: 0.2, y: 0.2, r: 400, color: [91,33,182], speed: 0.00018 },
+    { x: 0.8, y: 0.4, r: 350, color: [212,168,255], speed: 0.00022 },
+    { x: 0.3, y: 0.8, r: 300, color: [249,168,212], speed: 0.00015 },
+    { x: 0.7, y: 0.7, r: 380, color: [125,211,252], speed: 0.00020 },
+  ];
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#0c0120';
+    ctx.fillRect(0, 0, w, h);
+    orbs.forEach((orb, i) => {
+      const px = (orb.x + Math.sin(t * orb.speed * 1000 + i) * 0.15) * w;
+      const py = (orb.y + Math.cos(t * orb.speed * 1000 + i * 1.3) * 0.12) * h;
+      const grad = ctx.createRadialGradient(px, py, 0, px, py, orb.r);
+      grad.addColorStop(0, `rgba(${orb.color.join(',')},0.10)`);
+      grad.addColorStop(1, `rgba(${orb.color.join(',')},0)`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+    });
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== CUSTOM CURSOR =====
+(function initCursor() {
+  if (isMobile()) return;
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animate() {
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animate);
+  }
+  animate();
+  document.querySelectorAll('a,button,[data-product],[role="button"]').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+})();
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 30) {
+    if (header) header.classList.add('scrolled');
+    if (nav) nav.classList.add('scrolled');
+  } else {
+    if (header) header.classList.remove('scrolled');
+    if (nav) nav.classList.remove('scrolled');
+  }
+}, { passive: true });
+
+// ===== MOBILE MENU =====
+document.getElementById('nav-hamburger').addEventListener('click', () => {
+  document.getElementById('mobile-nav').classList.add('open');
+  document.body.style.overflow = 'hidden';
+});
+document.getElementById('mobile-close').addEventListener('click', () => {
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.body.style.overflow = '';
+});
+
+// ===== HERO 3D MOUSEMOVE =====
+(function() {
+  if (isMobile()) return;
+  const visual = document.getElementById('hero-visual');
+  if (!visual) return;
+  document.getElementById('hero').addEventListener('mousemove', e => {
+    const rect = visual.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const rx = ((e.clientY - cy) / (window.innerHeight / 2)) * 6;
+    const ry = ((e.clientX - cx) / (window.innerWidth / 2)) * -6;
+    visual.style.transform = `perspective(1100px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  });
+  document.getElementById('hero').addEventListener('mouseleave', () => {
+    visual.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg)';
+  });
+})();
+
+// ===== 3D CARD TILT =====
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  if (isMobile()) return;
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const rx = ((e.clientY - cy) / (rect.height / 2)) * 8;
+    const ry = ((e.clientX - cx) / (rect.width / 2)) * -8;
+    card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(4px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+  });
+});
+
+// ===== SCROLL REVEAL =====
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ===== SHOWCASE CARD ANIMATION =====
+const showcaseObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const delay = parseInt(e.target.dataset.showcaseDelay || 0) * 160;
+      setTimeout(() => e.target.classList.add('visible'), delay);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.showcase-card').forEach(card => showcaseObserver.observe(card));
+
+// ===== MODAL =====
+const overlay = document.getElementById('modal-overlay');
+const modalBox = document.getElementById('modal-box');
+
+function openModal(productKey) {
+  const p = PRODUCTS[productKey];
+  if (!p) return;
+  // Images
+  const imagesDiv = document.getElementById('modal-images');
+  imagesDiv.innerHTML = p.imgs.map(imgKey => `
+    <img src="assets/${imgKey}.png" alt="${p.name}" onerror="this.style.display='none';const f=document.createElement('div');f.className='img-fallback';f.style.cssText='flex:1;height:160px;background:linear-gradient(135deg,rgba(212,168,255,0.15),rgba(249,168,212,0.1));border-radius:12px';this.parentNode.insertBefore(f,this.nextSibling)">
+  `).join('');
+  document.getElementById('modal-name').textContent = p.name;
+  document.getElementById('modal-desc').textContent = p.desc;
+  document.getElementById('modal-tags').innerHTML = p.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Reset animation
+  modalBox.style.animation = 'none';
+  requestAnimationFrame(() => { modalBox.style.animation = 'scaleIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards'; });
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Float card clicks
+document.querySelectorAll('.float-card').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    const key = el.dataset.product;
+    if (key && typeof openQuickViewModal === 'function') openQuickViewModal(key);
+    else if (key && PRODUCTS[key]) openModal(key);
+  });
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const key = el.dataset.product;
+      if (key && typeof openQuickViewModal === 'function') openQuickViewModal(key);
+      else if (key && PRODUCTS[key]) openModal(key);
+    }
+  });
+});
+
+</script>
+</body>
+</html>

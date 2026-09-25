@@ -1,0 +1,27 @@
+# Environment & Local Server
+.env
+.env.local
+*.log
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sublime-workspace
+
+# Temporary & Cache
+/tmp/
+/cache/
+*.tmp
+*.bak
