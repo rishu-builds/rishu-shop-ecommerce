@@ -131,6 +131,6 @@ http://localhost/rishu-shop-ecommerce/
 ## 👨‍💻 Author
 
 **Rishabh Yadav**  
-- 💼 LinkedIn: [Rishabh Yadav](https://www.linkedin.com/in/rishabh-yadav-00a235349)  
+- 💼 LinkedIn: [Rishabh Yadav](https://www.linkedin.com/in/rishabh-yadav777/)  
 - 💻 GitHub: [@rishu-builds](https://github.com/rishu-builds)  
 - ✉️ Email: [ysrishabh017@gmail.com](mailto:ysrishabh017@gmail.com)
