@@ -254,9 +254,7 @@ if (isset($_POST['ajax_action'])) {
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ==========================================================================
-   FLIPKART OFFICIAL SIGNATURE LOGIN STYLES
-   ========================================================================== */
+/* Login page styling */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -267,7 +265,7 @@ body {
   color: #212121;
 }
 
-/* FLIPKART TOP HEADER */
+/* Top header */
 .fk-top-header {
   background-color: #2874f0;
   height: 56px;

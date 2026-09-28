@@ -2864,7 +2864,7 @@ document.getElementById('mobile-close').addEventListener('click', () => {
   document.body.style.overflow = '';
 });
 
-// ===== HERO 3D MOUSEMOVE =====
+// Hero visual parallax on mousemove
 (function() {
   if (isMobile()) return;
   const visual = document.getElementById('hero-visual');
@@ -2882,7 +2882,7 @@ document.getElementById('mobile-close').addEventListener('click', () => {
   });
 })();
 
-// ===== 3D CARD TILT =====
+// Product card tilt interaction
 document.querySelectorAll('[data-tilt]').forEach(card => {
   if (isMobile()) return;
   card.addEventListener('mousemove', e => {
@@ -2898,7 +2898,7 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
   });
 });
 
-// ===== SCROLL REVEAL =====
+// Scroll reveal animations
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
 }, { threshold: 0.12 });

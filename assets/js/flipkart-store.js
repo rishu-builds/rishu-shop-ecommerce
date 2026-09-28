@@ -1,7 +1,6 @@
 /**
- * Rishu Shop - Client-Side E-Commerce Architecture
- * Author: Rishabh Yadav (https://github.com/rishu-builds)
- * Handles: State management, cart drawer, OTP auth flow, live search, 2-step checkout
+ * Rishu Shop - Storefront Client Script
+ * Handles state management, cart drawer, OTP auth flow, live search, and checkout.
  */
 
 // Product catalog
@@ -86,7 +85,7 @@ const VALID_COUPONS = {
   'AYODHYA10': { type: 'percent', value: 10, desc: '10% Express Ayodhya Discount' }
 };
 
-// ===== 2. APP STATE =====
+// State Management
 const State = {
   currentUser: JSON.parse(localStorage.getItem('rishu_logged_in_user') || 'null'),
   cart: JSON.parse(localStorage.getItem('rishu_cart') || '[]'),
@@ -118,7 +117,7 @@ function saveCoupon() { localStorage.setItem('rishu_coupon', JSON.stringify(Stat
 function saveOrders() { localStorage.setItem('rishu_orders', JSON.stringify(State.orders)); }
 function saveAddress() { localStorage.setItem('rishu_address', JSON.stringify(State.userAddress)); }
 
-// ===== 3. TOAST NOTIFICATIONS =====
+// Toast notifications
 function showToast(message, icon = 'fa-circle-check') {
   let container = document.getElementById('toast-container');
   if (!container) {
@@ -138,7 +137,7 @@ function showToast(message, icon = 'fa-circle-check') {
   }, 2800);
 }
 
-// ===== 4. CART ENGINE =====
+// Cart operations and drawer rendering
 function addToCart(productKey, size = 'M', qty = 1, openDrawer = true) {
   const p = STORE_PRODUCTS[productKey];
   if (!p) return;
@@ -424,7 +423,7 @@ function renderCartUI() {
   }
 }
 
-// ===== 5. WISHLIST ENGINE =====
+// Wishlist operations
 function toggleWishlist(productKey) {
   const p = STORE_PRODUCTS[productKey];
   if (!p) return;
@@ -505,7 +504,7 @@ function renderWishlistUI() {
   }).join('');
 }
 
-// ===== 6. QUICK VIEW / PRODUCT DETAILS MODAL =====
+// Quick view product details modal
 function openQuickViewModal(productKey) {
   const p = STORE_PRODUCTS[productKey];
   if (!p) return;
@@ -609,7 +608,7 @@ function buyNowDirect(productKey) {
   openCheckoutModal();
 }
 
-// ===== 7. 2-STEP CHECKOUT ENGINE =====
+// Checkout and payment flow
 function openCheckoutModal() {
   if (State.cart.length === 0) {
     showToast('Your bag is empty. Add items first!', 'fa-circle-exclamation');
@@ -854,7 +853,7 @@ function startUpiCountdown() {
   }, 1000);
 }
 
-// ===== 8. PLACE ORDER & SYNC WITH SQLITE BACKEND =====
+// Order placement and backend sync
 async function confirmAndPlaceOrder() {
   const btn = document.getElementById('placeOrderFinalBtn');
   if (btn) {
@@ -942,7 +941,7 @@ function handleOrderSuccess(res, totals) {
   openOrderSuccessModal(newOrder);
 }
 
-// ===== 9. FLIPKART LIVE ORDER TRACKING & SUCCESS MODAL =====
+// Order confirmation and tracking modal
 function openOrderSuccessModal(order) {
   const modal = document.getElementById('order-success-modal');
   if (!modal) return;
@@ -1011,7 +1010,7 @@ function updateTrackingStepper(status) {
   if (line) line.style.width = progressPct;
 }
 
-// ===== 10. MY ORDERS DRAWER =====
+// Order history drawer
 async function openOrdersDrawer() {
   if (!State.currentUser) {
     openLoginModal('orders');
@@ -1137,7 +1136,7 @@ function trackSingleOrder(orderCode) {
   openOrderSuccessModal(order);
 }
 
-// ===== 11. PRINTABLE GST TAX INVOICE GENERATOR =====
+// Invoice generator
 function printInvoice(orderCode) {
   const order = State.orders.find(o => o.orderCode === orderCode) || State.lastPlacedOrder;
   if (!order) return;
@@ -1265,7 +1264,7 @@ function printInvoice(orderCode) {
   invoiceWindow.document.close();
 }
 
-// ===== 12. SEARCH & FILTER ENGINE =====
+// Search and filtering
 function initSearchAndFilter() {
   const searchInput = document.getElementById('searchInput');
   const clearBtn = document.getElementById('searchClearBtn');
@@ -1348,7 +1347,7 @@ function filterProductsByCategory(category) {
   });
 }
 
-// ===== 13. DRAWER OPEN/CLOSE HELPERS =====
+// Drawer helpers
 function openCartDrawer() {
   const overlay = document.getElementById('cart-drawer-overlay');
   if (overlay) overlay.classList.add('open');
@@ -1389,7 +1388,7 @@ document.addEventListener('click', e => {
   }
 });
 
-// ===== 14. CELEBRATORY CONFETTI ENGINE =====
+// Confetti effect
 function launchConfetti() {
   const canvas = document.getElementById('confetti-canvas');
   if (!canvas) return;
@@ -1451,7 +1450,7 @@ function launchConfetti() {
   updateConfetti();
 }
 
-// ===== 15. FLIPKART MOBILE PHONE OTP AUTHENTICATION =====
+// Phone OTP authentication flow
 async function checkAuthStatus() {
   try {
     const res = await fetch('api/auth.php?action=check');
@@ -1947,7 +1946,7 @@ async function handleUserLogout() {
   closeWishlistDrawer();
 }
 
-// ===== 16. RISHU VIP CLUB HANDLERS =====
+// VIP club handlers
 function openRishuClubModal() {
   const modal = document.getElementById('rishu-club-modal');
   if (!modal) return;
@@ -2011,7 +2010,7 @@ function copyAndApplyClubCoupon(code) {
   showToast(`🎉 <strong>${code}</strong> applied! ₹500 VIP discount activated!`, 'fa-circle-check');
 }
 
-// ===== INITIALIZATION ON DOM LOAD =====
+// Initialize store on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   checkAuthStatus();
   updateCartBadges();
